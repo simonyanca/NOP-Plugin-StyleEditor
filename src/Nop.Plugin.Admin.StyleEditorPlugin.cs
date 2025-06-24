@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Routing;
-using Nop.Core;
+﻿using Nop.Core;
 using Nop.Core.Domain.Cms;
 using Nop.Plugin.Admin.StyleEditor.Components;
 using Nop.Plugin.Admin.StyleEditor.Settings;
 using Nop.Services.Cms;
-using Nop.Services.Common;
 using Nop.Services.Configuration;
 using Nop.Services.Localization;
 using Nop.Services.Plugins;
 using Nop.Services.Security;
 using Nop.Web.Framework.Infrastructure;
-using Nop.Web.Framework.Menu;
 using Task = System.Threading.Tasks.Task;
 
 namespace Nop.Plugin.Admin.StyleEditor
@@ -22,7 +15,7 @@ namespace Nop.Plugin.Admin.StyleEditor
     /// <summary>
     /// Plugin class handling install/uninstall
     /// </summary>
-    public class StyleEditorPlugin : BasePlugin, IWidgetPlugin, IAdminMenuPlugin
+    public class StyleEditorPlugin : BasePlugin, IWidgetPlugin
     {
         #region Fields
 
@@ -151,40 +144,6 @@ namespace Nop.Plugin.Admin.StyleEditor
                 var _ when widgetZone.Equals(PublicWidgetZones.BodyEndHtmlTagBefore) => typeof(CustomStyleComponent),
                 _ => null,
             };
-        }
-
-        /// <summary>
-        /// Adds the menu item for the editor page
-        /// </summary>
-        /// <param name="rootNode"></param>
-        /// <returns></returns>
-        public async Task ManageSiteMapAsync(SiteMapNode rootNode)
-        {
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManagePlugins))
-            {
-                return;
-            }
-
-            var menuItem = new SiteMapNode
-            {
-                SystemName = "StyleEditor",
-                Title = await _localizationService.GetResourceAsync("Plugins.Admin.StyleEditor.EditorTitle"),
-                ControllerName = "StyleEditor",
-                ActionName = "EditStyles",
-                Visible = true,
-                RouteValues = new RouteValueDictionary() { { "area", "Admin" } },
-                IconClass = "far fa-dot-circle"
-            };
-
-            var pluginNode = rootNode.ChildNodes.FirstOrDefault(x => x.SystemName == "Configuration");
-            if (pluginNode != null)
-            {
-                pluginNode.ChildNodes.Add(menuItem);
-            }
-            else
-            {
-                rootNode.ChildNodes.Add(menuItem);
-            }
         }
 
         private async Task AddPluginAsync(string name)

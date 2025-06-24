@@ -73,7 +73,7 @@ namespace Nop.Plugin.Admin.StyleEditor.Areas.Admin.Controllers
         /// <returns>Returns the configuration page</returns>
         public virtual async Task<IActionResult> EditStyles()
         {
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManagePlugins))
+            if (!await _permissionService.AuthorizeAsync(StandardPermission.Configuration.MANAGE_PLUGINS))
             {
                 return AccessDeniedView();
             }
@@ -98,7 +98,7 @@ namespace Nop.Plugin.Admin.StyleEditor.Areas.Admin.Controllers
         [AutoValidateAntiforgeryToken]
         public virtual async Task<IActionResult> EditStyles(ConfigurationModel model)
         {
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManagePlugins))
+            if (!await _permissionService.AuthorizeAsync(StandardPermission.Configuration.MANAGE_PLUGINS))
             {
                 return AccessDeniedView();
             }
